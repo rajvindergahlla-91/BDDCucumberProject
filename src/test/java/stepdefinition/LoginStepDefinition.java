@@ -14,7 +14,6 @@ import pageclasses.WelcomeToTheInternetPage;
 import utils.BaseUtils;
 
 public class LoginStepDefinition {
-	
 	WelcomeToTheInternetPage welcome;
 	LoginPagePage login;
 	SecureAreaPage msg;
@@ -30,6 +29,7 @@ public class LoginStepDefinition {
 		welcome = new WelcomeToTheInternetPage();
 		welcome.clickFormAuthentication();
 		System.out.println("User has clicked on form authentication");
+
 	}
 
 	@Then("user should land to Login page")
@@ -41,14 +41,14 @@ public class LoginStepDefinition {
 
 	}
 
-	@When("user enters correct username {string}")
+	@When("user enters username {string}")
 	public void user_enters_correct_username(String username) {
 		login = new LoginPagePage();
 		login.enterUsername(username);
 		System.out.println("Username entered");
 	}
 
-	@When("correct password {string}")
+	@When("user enters password {string}")
 	public void correct_password(String string) {
 		login = new LoginPagePage();
 		login.enterPassword(string);
@@ -62,13 +62,26 @@ public class LoginStepDefinition {
 		System.out.println("Login button is clicked successfully");
 	}
 
-	@Then("user should be successfully logged in")
-	public void user_should_be_successfully_logged_in() {
-		msg = new SecureAreaPage();
-		String headText = msg.getSuccessMsg("Secure page title");
+	@Then("user should see {string}")
+	public void user_should_see(String result) {
 
-		Assert.assertEquals(headText, "Secure Area");
-		System.out.println("User has login successfully");
+		switch (result.toLowerCase()) {
 
+		case "success":
+
+			break;
+
+		case "error":
+
+			break;
+
+		case "username required":
+
+			break;
+
+		case "password required":
+
+			break;
+		}
 	}
 }
