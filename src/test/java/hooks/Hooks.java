@@ -1,10 +1,8 @@
+
 package hooks;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
-import org.testng.ITestResult;
 
 import com.aventstack.extentreports.MediaEntityBuilder;
 
@@ -21,6 +19,7 @@ import utils.BaseUtils;
 import utils.WaitUtils;
 
 public class Hooks {
+
 	@BeforeAll
 	public static void initialise() throws IOException {
 		ExtentManager.initReport();
@@ -34,23 +33,25 @@ public class Hooks {
 	}
 
 	@After
-	public void packUptest(Scenario scenario) throws IOException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+	public void packUptest(Scenario scenario)
+			throws IOException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		if (scenario.getStatus().equals(Status.PASSED)) {
 			ExtentTestManager.log.pass("Test passed");
-			
+
 		} else if (scenario.isFailed()) {
-			Field delegate= scenario.getClass().getDeclaredField("delegate");
+			Field delegate = scenario.getClass().getDeclaredField("delegate");
 			delegate.setAccessible(true);
-			Object testCaseState= delegate.get(scenario);
-			
+			Object testCaseState = delegate.get(scenario);
+
 			Field errorField = testCaseState.getClass().getDeclaredField("error");
 			errorField.setAccessible(true);
 			Throwable error = (Throwable) errorField.get(testCaseState);
-			
-			ExtentTestManager.log.fail(error.getMessage(), MediaEntityBuilder
-					.createScreenCaptureFromPath(BaseUtils.getScreenShotPath(DriverManager.getDriver(),
-							scenario.getClass().getName() + "." + scenario.getName()))
-					.build());
+
+			ExtentTestManager.log.fail(error.getMessage(),
+					MediaEntityBuilder
+							.createScreenCaptureFromPath(BaseUtils.getScreenShotPath(DriverManager.getDriver(),
+									scenario.getClass().getName() + "." + scenario.getName()))
+							.build());
 		} else if (scenario.getStatus().equals(Status.SKIPPED)) {
 			ExtentTestManager.log.skip("Test Skipped");
 		}
