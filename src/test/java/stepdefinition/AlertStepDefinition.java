@@ -8,7 +8,7 @@ import pageclasses.JavaScriptAlertPage;
 import pageclasses.WelcomeToTheInternetPage;
 import utils.WaitUtils;
 
-public class JSAlertStepDefinition {
+public class AlertStepDefinition {
 	WelcomeToTheInternetPage welcome;
 	JavaScriptAlertPage js;
 
